@@ -29,7 +29,15 @@ catkin_make
 Run through this tutorial. We already cloned some of the stuff it asks you to do. 
 http://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#simulation
 
-#### 5. Set global planner for move_base
+#### 5. Clone this repository
+```
+cd ~/catkin_ws/src
+git clone https://github.com/tyrellt/drrt_planner.git
+cd ~/catkin_ws
+catkin_make
+```
+
+#### 6. Set global planner for move_base
 Add the following line to move_base.launch somewhere within the node tag:
 ```
 <param name="base_global_planner" value="drrt_planner/DRRTPlanner"/>
