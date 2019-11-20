@@ -38,7 +38,7 @@ catkin_make
 ```
 
 #### 6. Set global planner for move_base
-Add the following line to move_base.launch somewhere within the node tag:
+Add the following line to move_base.launch (catkin_ws/src/turtlebot3/turtlebot3_navigation/launch/move_base.launch) somewhere within the node tag:
 ```
 <param name="base_global_planner" value="drrt_planner/DRRTPlanner"/>
 ```
