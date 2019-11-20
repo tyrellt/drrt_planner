@@ -26,7 +26,7 @@ catkin_make
 ```
 
 #### 4. Test your environment
-Run through this tutorial. We already cloned some of the stuff it asks you to do. 
+Run through this tutorial. We already cloned some of the stuff it asks you to do. You don't have to do everything--just make sure you can run gazebo and run the teleop stuff to make sure you can control the turtlebot so you knonw everything is talking.
 http://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#simulation
 
 #### 5. Clone this repository
