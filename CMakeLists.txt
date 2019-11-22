@@ -133,7 +133,11 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/drrt_planner.cpp
 # )
- add_library(drrt_planner_lib src/DRRTPlanner.cpp)
+set(LIB_SOURCES
+  src/DRRTPlanner.cpp 
+  src/ValidityChecker.cpp
+)
+ add_library(drrt_planner_lib ${LIB_SOURCES}) 
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

@@ -1,5 +1,5 @@
- #ifndef DRRTPLANNER_CPP
- #define DRRTPLANNER_CPP
+ #ifndef DRRTPLANNER_H
+ #define DRRTPLANNER_H
 
 /** include the libraries you need in your planner here */
 /** for global path planner interface */
@@ -15,7 +15,7 @@
 
 #include <ompl/base/SpaceInformation.h>
 #include <ompl/base/spaces/RealVectorStateSpace.h>
-#include <ompl/base/spaces/SE2StateSpace.h>
+#include <ompl/geometric/planners/rrt/RRT.h>
 #include <ompl/geometric/planners/rrt/RRTstar.h>
 #include <ompl/geometric/SimpleSetup.h>
 
@@ -41,10 +41,12 @@ bool makePlan(const geometry_msgs::PoseStamped& start,
               std::vector<geometry_msgs::PoseStamped>& plan
              );
 
-std::shared_ptr<og::RRTstar> planner;
+//std::shared_ptr<og::RRTstar> planner;
 std::shared_ptr<ob::ProblemDefinition> pdef;
 
 ros::Subscriber collisionSub;
+
+
 
 };	// end class DRRTPlanner
 };	// end namspace drrt_planner

@@ -1,5 +1,6 @@
 #include <pluginlib/class_list_macros.h>
 #include "DRRTPlanner.h"
+#include "ValidityChecker.h"
 
 #include <iostream>
 #include <cmath>
@@ -56,7 +57,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	    auto si(std::make_shared<ob::SpaceInformation>(space));
 
 	    // set state validity checking for this space
-	    si->setStateValidityChecker(isStateValid);
+	    si->setStateValidityChecker(ob::StateValidityCheckerPtr(new ValidityChecker(si)));
 		
 	    // create a random start state
 	    ob::ScopedState<ob::RealVectorStateSpace> treeStart(space);
@@ -77,7 +78,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	    pdef->setStartAndGoalStates(treeStart, treeGoal, threshold);
 
 	    // initialize planner for the defined space
-	    planner = std::make_shared<og::RRTstar>(si);
+	    auto planner = std::make_shared<og::RRTstar>(si);
 
 	    // set the problem we are trying to solve for the planner
 	    planner->setProblemDefinition(pdef);
@@ -95,7 +96,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	
 		std::cout << "\n\n\n\nsolving...\n\n";
 		// attempt to solve the problem within one second of planning time
-    	ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
+    	ob::PlannerStatus solved = planner->ob::Planner::solve(0.001);
 	
 	    	
     	if (solved)
