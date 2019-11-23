@@ -9,9 +9,14 @@ namespace ob = ompl::base;
 namespace og = ompl::geometric;
 
 struct Obstacle {
-    double x;
-    double y;
-    double radius;
+    Obstacle(float x, float y, float radius) {
+        this->x = x;
+        this->y = y;
+        this->radius = radius;
+    }
+    float x;
+    float y;
+    float radius;
 };
 
 class ValidityChecker : public ob::StateValidityChecker

@@ -6,6 +6,13 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
 {
     // Initialize ros node that subscribes to obstacle data
 
+    //test obstacles
+    Obstacle obstacle1(2.0, 2.0, 1.0);
+    Obstacle obstacle2(3.0, 4.0, 0.25);
+    Obstacle obstacle3(4.0, 3.0, 0.25);
+    obstacles.push_back(obstacle1);
+    obstacles.push_back(obstacle2);
+    obstacles.push_back(obstacle3);
 }
 
 
@@ -13,7 +20,11 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
 // circular obstacle
 bool ValidityChecker::isValid(const ob::State* state) const
 {
-    return this->clearance(state) > 0.0;
+    bool result = this->clearance(state) > 0.0;
+    if (!result) 
+        std::cout << "collision!\n";
+    
+    return result;
 }
 // Returns the distance from the given state's position to the
 // boundary of the circular obstacle.
@@ -29,10 +40,11 @@ double ValidityChecker::clearance(const ob::State* state) const
     // Distance formula between two points, offset by the circle's radius
     double minDist = 100;
     double dist = 0;
+    double turtlebotRadius = 0.3;
 
     for( int a = 0; a < obstacles.size(); a = a + 1)
     {
-        dist = sqrt((x-obstacles[a].x)*(x-obstacles[a].x) + (y-obstacles[a].y)*(y-obstacles[a].y)) - obstacles[a].radius;
+        dist = sqrt((x-obstacles[a].x)*(x-obstacles[a].x) + (y-obstacles[a].y)*(y-obstacles[a].y)) - obstacles[a].radius - turtlebotRadius;
         if(dist < minDist)
         {
             minDist = dist;
