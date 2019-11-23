@@ -19,29 +19,13 @@ DRRTPlanner::DRRTPlanner(std::string name, costmap_2d::Costmap2DROS* costmap_ros
   	initialize(name, costmap_ros);
 }
 
-bool isStateValid(const ob::State *state)
-{
-    // extract the first component of the state and cast it to what we expect
-    const auto *vectorState = state->as<ob::RealVectorStateSpace::StateType>();
-
-
-    // return
-    return true;
-}
-
-
 void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap_ros){
-	// construct the state space we are planning in
-    
-
-    
-
     
 }
 
 bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,  
-							std::vector<geometry_msgs::PoseStamped>& plan ){
-
+							std::vector<geometry_msgs::PoseStamped>& plan )
+{
 	static bool needToReplan = true;
 	if (needToReplan) {
 		auto space(std::make_shared<ob::RealVectorStateSpace>(2));
@@ -96,7 +80,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	
 		std::cout << "\n\n\n\nsolving...\n\n";
 		// attempt to solve the problem within one second of planning time
-    	ob::PlannerStatus solved = planner->ob::Planner::solve(0.001);
+    	ob::PlannerStatus solved = planner->ob::Planner::solve(0.1);
 	
 	    	
     	if (solved)
@@ -132,55 +116,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 		 
 	}
 
-
-
-
-
-
-
-
-
-	/* Straight line path example---------------------------------------*/
-
-	// static bool needToReplan = true;
-	// if (needToReplan) {
-	// 	plan.push_back(start);
-	// 	float dx = goal.pose.position.x - start.pose.position.x;
-	// 	float dy = goal.pose.position.y - start.pose.position.y;
-
-	// 	//normalize
-	// 	float euclDistance = hypot(dx, dy);
-	// 	int step = 20;
-	// 	int increment = euclDistance / step;
-	// 	dx /= step;
-	// 	dy /= step;
-	// 	std::cout << "dx, dy: " << dx << ", " << dy << "\n";
-
-	// 	float angle = 0.0;//atan2(dy, dx);
-	// 	tf::Quaternion quat = tf::createQuaternionFromYaw(angle);
-
-	// 	geometry_msgs::PoseStamped last_point = start;
-	// 	plan.push_back(start);
-
-	//     for (int i = 0; i < step; i++) {
-	//     	geometry_msgs::PoseStamped next_point = goal;	// inintialize to goal to get header
-	//     	next_point.pose.position.x = last_point.pose.position.x + dx;
-	//     	next_point.pose.position.y = last_point.pose.position.y + dy;
-	    	
-	//     	next_point.pose.orientation.x = quat.x();
-	//     	next_point.pose.orientation.y = quat.y();
-	//     	next_point.pose.orientation.z = quat.z();
-	//     	next_point.pose.orientation.w = quat.w();
-	//     	std::cout << "just added a point\n";
-	//     	plan.push_back(next_point);
-	//     	last_point = next_point;
-
-
-	//     }
-	//     std::cout << "done planning\n";
-	//    	plan.push_back(goal);
-	//    	needToReplan = false;
- //   	}
    	return true;
 }
 };
