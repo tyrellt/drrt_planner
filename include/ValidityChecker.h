@@ -4,6 +4,7 @@
 #include <ompl/base/SpaceInformation.h>
 #include <ompl/geometric/SimpleSetup.h>
 #include <ompl/base/spaces/RealVectorStateSpace.h>
+#include <gazebo_msgs/ModelStates.h>
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
@@ -31,6 +32,8 @@ public:
     // Returns the distance from the given state's position to the
     // boundary of the circular obstacle.
     double clearance(const ob::State* state) const;
+
+    void gazebo_callback(const gazebo_msgs::ModelStates& msg);
 
     std::vector<Obstacle> obstacles;
 };

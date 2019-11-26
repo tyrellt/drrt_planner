@@ -5,6 +5,10 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     ob::StateValidityChecker(si) 
 {
     // Initialize ros node that subscribes to obstacle data
+    // create node handle
+    // subscribe to gazebo model getter thing
+
+
 
     //test obstacles
     Obstacle obstacle1(2.0, 2.0, 1.0);
@@ -14,14 +18,15 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     obstacles.push_back(obstacle2);
     obstacles.push_back(obstacle3);
 
-    // initialize subsriber with callback()
+    
 
 }
 
-//callback function
-//void callback() {
+void ValidityChecker::gazebo_callback(const gazebo_msgs::ModelStates& msg) {
+    //read in the message that we're subscribing to.
+    //place obstacle data in the vector of Obstacles
 
-//}
+}
 
 
 // Returns whether the given state's position overlaps the
