@@ -8,8 +8,6 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     // create node handle
     // subscribe to gazebo model getter thing
 
-
-
     //test obstacles
     Obstacle obstacle1(2.0, 2.0, 1.0);
     Obstacle obstacle2(3.0, 4.0, 0.25);
@@ -17,15 +15,35 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     obstacles.push_back(obstacle1);
     obstacles.push_back(obstacle2);
     obstacles.push_back(obstacle3);
-
-    
-
 }
 
 void ValidityChecker::gazebo_callback(const gazebo_msgs::ModelStates& msg) {
     //read in the message that we're subscribing to.
     //place obstacle data in the vector of Obstacles
-
+    std::string r_100 = "100";
+    std::string r_75 = "75";
+    std::string r_50 = "50";
+    std::string r_25 = "25";
+    for(int i = 0; i < msg.name.size(); i++){
+        std::string model_name = msg.name[i];
+        if(model_name.find("obs") != std::string::npos){
+            float r;
+            if(model_name.find(r_100) != std::string::npos){
+            r = 1.0;
+            }
+            else if(model_name.find(r_75) != std::string::npos){
+            r = .75;
+            }
+            else if(model_name.find(r_50) != std::string::npos){
+            r = .5;
+            }
+            else if(model_name.find(r_25) != std::string::npos){
+            r = .25;
+            }
+            Obstacle obs(msg.pose[i].position.x, msg.pose[i].position.y, r);
+            obstacles.push_back(obs);
+        }
+    }
 }
 
 
