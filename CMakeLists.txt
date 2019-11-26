@@ -8,7 +8,9 @@ project(drrt_planner)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
+ gazebo_msgs
+ roscpp
+ std_msgs
 )
 
 find_package(ompl)
@@ -220,3 +222,6 @@ set(LIB_SOURCES
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(models_getter models_getter.cpp)
+target_link_libraries(models_getter ${catkin_LIBRARIES})
