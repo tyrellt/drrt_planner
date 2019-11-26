@@ -14,7 +14,7 @@ namespace drrt_planner {
 
 //Default Constructor
 DRRTPlanner::DRRTPlanner (){
-
+	
 }
 
 DRRTPlanner::DRRTPlanner(std::string name, costmap_2d::Costmap2DROS* costmap_ros){
@@ -22,7 +22,20 @@ DRRTPlanner::DRRTPlanner(std::string name, costmap_2d::Costmap2DROS* costmap_ros
 }
 
 void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap_ros){
-    
+    space = std::make_shared<ob::RealVectorStateSpace>(2);
+
+	// set the bounds for the R^2
+	ob::RealVectorBounds bounds(2);
+	bounds.setLow(-5);
+	bounds.setHigh(5);
+
+	space->setBounds(bounds);
+	// construct an instance of  space information from this state space
+	si = std::make_shared<ob::SpaceInformation>(space);
+	vc = new ValidityChecker(si);
+	// set state validity checking for this space
+	si->setStateValidityChecker(ob::StateValidityCheckerPtr(vc));
+	
 }
 
 
@@ -31,21 +44,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 {
 	static bool needToReplan = true;
 	if (needToReplan) {
-		//publishInitPoseEstimate(goal.header);
-		auto space(std::make_shared<ob::RealVectorStateSpace>(2));
-
-	    // set the bounds for the R^2
-	    ob::RealVectorBounds bounds(2);
-	    bounds.setLow(-5);
-	    bounds.setHigh(5);
-
-	    space->setBounds(bounds);
-	    // construct an instance of  space information from this state space
-	    auto si(std::make_shared<ob::SpaceInformation>(space));
-
-	    // set state validity checking for this space
-	    si->setStateValidityChecker(ob::StateValidityCheckerPtr(new ValidityChecker(si)));
-		
 	    // create a random start state
 	    ob::ScopedState<ob::RealVectorStateSpace> treeStart(space);
 	    treeStart[0] = start.pose.position.x;

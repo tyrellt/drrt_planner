@@ -21,6 +21,8 @@
 
 #include <ompl/config.h>
 
+#include "ValidityChecker.h"
+
 using std::string;
 
 namespace ob = ompl::base;
@@ -43,9 +45,12 @@ bool makePlan(const geometry_msgs::PoseStamped& start,
 
 //std::shared_ptr<og::RRTstar> planner;
 std::shared_ptr<ob::ProblemDefinition> pdef;
+std::shared_ptr<ob::RealVectorStateSpace> space;
+std::shared_ptr<ob::SpaceInformation> si;
 
 ros::Subscriber collisionSub;
 
+ValidityChecker* vc;
 
 
 };	// end class DRRTPlanner

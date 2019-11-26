@@ -5,6 +5,8 @@
 #include <ompl/geometric/SimpleSetup.h>
 #include <ompl/base/spaces/RealVectorStateSpace.h>
 #include <gazebo_msgs/ModelStates.h>
+#include <ros/ros.h>
+#include <ros/console.h>
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;

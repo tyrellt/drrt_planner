@@ -4,9 +4,12 @@
 ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     ob::StateValidityChecker(si) 
 {
-    // Initialize ros node that subscribes to obstacle data
-    // create node handle
-    // subscribe to gazebo model getter thing
+    //int argc;
+	//char** argv;
+	//ros::init(argc, argv, "models_getter");
+	//ros::NodeHandle nh;
+	//ros::Subscriber sub = nh.subscribe("/gazebo/model_states",1, &ValidityChecker::gazebo_callback, this);
+
 
     //test obstacles
     Obstacle obstacle1(2.0, 2.0, 1.0);
@@ -18,8 +21,6 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
 }
 
 void ValidityChecker::gazebo_callback(const gazebo_msgs::ModelStates& msg) {
-    //read in the message that we're subscribing to.
-    //place obstacle data in the vector of Obstacles
     std::string r_100 = "100";
     std::string r_75 = "75";
     std::string r_50 = "50";
