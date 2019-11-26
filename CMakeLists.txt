@@ -223,5 +223,5 @@ set(LIB_SOURCES
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(models_getter models_getter.cpp)
+add_executable(models_getter src/models_getter.cpp)
 target_link_libraries(models_getter ${catkin_LIBRARIES})

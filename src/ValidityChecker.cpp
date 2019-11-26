@@ -13,7 +13,15 @@ ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     obstacles.push_back(obstacle1);
     obstacles.push_back(obstacle2);
     obstacles.push_back(obstacle3);
+
+    // initialize subsriber with callback()
+
 }
+
+//callback function
+//void callback() {
+
+//}
 
 
 // Returns whether the given state's position overlaps the

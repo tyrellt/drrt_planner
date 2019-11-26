@@ -1,6 +1,8 @@
 #include <pluginlib/class_list_macros.h>
 #include "DRRTPlanner.h"
 #include "ValidityChecker.h"
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <std_msgs/Float64.h>
 
 #include <iostream>
 #include <cmath>
@@ -23,11 +25,13 @@ void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap
     
 }
 
+
 bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,  
 							std::vector<geometry_msgs::PoseStamped>& plan )
 {
 	static bool needToReplan = true;
 	if (needToReplan) {
+		//publishInitPoseEstimate(goal.header);
 		auto space(std::make_shared<ob::RealVectorStateSpace>(2));
 
 	    // set the bounds for the R^2
@@ -36,7 +40,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	    bounds.setHigh(5);
 
 	    space->setBounds(bounds);
-
 	    // construct an instance of  space information from this state space
 	    auto si(std::make_shared<ob::SpaceInformation>(space));
 
