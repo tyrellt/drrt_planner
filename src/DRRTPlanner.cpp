@@ -26,8 +26,8 @@ void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap
 
 	// set the bounds for the R^2
 	ob::RealVectorBounds bounds(2);
-	bounds.setLow(-5);
-	bounds.setHigh(5);
+	bounds.setLow(-1);
+	bounds.setHigh(10);
 
 	space->setBounds(bounds);
 	// construct an instance of  space information from this state space
@@ -81,7 +81,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	
 		std::cout << "\n\n\n\nsolving...\n\n";
 		// attempt to solve the problem within one second of planning time
-    	ob::PlannerStatus solved = planner->ob::Planner::solve(0.1);
+    	ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
 	
 	    	
     	if (solved)
@@ -96,7 +96,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
     	    
     	    plan.push_back(start);
     	    for (int i = 1; i < rrtStarPath.getStateCount() - 1; i++) {	//don't add start and goal states in loop
-    	    	std::cout << "in conversion loop!\n";
     	    	geometry_msgs::PoseStamped nav_pose = goal;	//intialize so we have all the correct header info
     	    	auto currentState = rrtStarPath.getState(i)->as<ob::RealVectorStateSpace::StateType>();
     	    	nav_pose.pose.position.x = currentState->values[0];
