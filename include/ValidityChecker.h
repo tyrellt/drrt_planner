@@ -35,7 +35,7 @@ public:
     // boundary of the circular obstacle.
     double clearance(const ob::State* state) const;
 
-    void gazebo_callback(const gazebo_msgs::ModelStates& msg);
+    void readObstacles(const gazebo_msgs::ModelStates& msg);
 
     std::vector<Obstacle> obstacles;
 };

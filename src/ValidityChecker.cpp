@@ -1,26 +1,18 @@
 #include "ValidityChecker.h"
+#include <string>
 
-
-ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
-    ob::StateValidityChecker(si) 
-{
-    //int argc;
-	//char** argv;
-	//ros::init(argc, argv, "models_getter");
-	//ros::NodeHandle nh;
-	//ros::Subscriber sub = nh.subscribe("/gazebo/model_states",1, &ValidityChecker::gazebo_callback, this);
-
-
-    //test obstacles
-    Obstacle obstacle1(2.0, 2.0, 1.0);
-    Obstacle obstacle2(3.0, 4.0, 0.25);
-    Obstacle obstacle3(4.0, 3.0, 0.25);
-    obstacles.push_back(obstacle1);
-    obstacles.push_back(obstacle2);
-    obstacles.push_back(obstacle3);
+void callback(const gazebo_msgs::ModelStates& msg) {
+    std::cout << "in callback\n";
 }
 
-void ValidityChecker::gazebo_callback(const gazebo_msgs::ModelStates& msg) {
+ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
+    ob::StateValidityChecker(si)
+{
+	auto model_msg = ros::topic::waitForMessage<gazebo_msgs::ModelStates>("/gazebo/model_states");
+    ValidityChecker::readObstacles(*model_msg);
+}
+
+void ValidityChecker::readObstacles(const gazebo_msgs::ModelStates& msg) {
     std::string r_100 = "100";
     std::string r_75 = "75";
     std::string r_50 = "50";
@@ -53,8 +45,8 @@ void ValidityChecker::gazebo_callback(const gazebo_msgs::ModelStates& msg) {
 bool ValidityChecker::isValid(const ob::State* state) const
 {
     bool result = this->clearance(state) > 0.0;
-    if (!result) 
-        std::cout << "collision!\n";
+    // if (!result) 
+    //     std::cout << "collision!\n";
     
     return result;
 }
@@ -73,7 +65,6 @@ double ValidityChecker::clearance(const ob::State* state) const
     double minDist = 100;
     double dist = 0;
     double turtlebotRadius = 0.3;
-
     for( int a = 0; a < obstacles.size(); a = a + 1)
     {
         dist = sqrt((x-obstacles[a].x)*(x-obstacles[a].x) + (y-obstacles[a].y)*(y-obstacles[a].y)) - obstacles[a].radius - turtlebotRadius;
