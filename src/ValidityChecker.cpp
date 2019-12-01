@@ -37,6 +37,7 @@ void ValidityChecker::readObstacles(const gazebo_msgs::ModelStates& msg) {
             obstacles.push_back(obs);
         }
     }
+    std::cout << "num obstacles: " << obstacles.size() << "\n\n\n\n\n\n";
 }
 
 
@@ -65,9 +66,11 @@ double ValidityChecker::clearance(const ob::State* state) const
     double minDist = 100;
     double dist = 0;
     double turtlebotRadius = 0.3;
+    double buffer = 0.1;
     for( int a = 0; a < obstacles.size(); a = a + 1)
     {
-        dist = sqrt((x-obstacles[a].x)*(x-obstacles[a].x) + (y-obstacles[a].y)*(y-obstacles[a].y)) - obstacles[a].radius - turtlebotRadius;
+        dist = sqrt((x-obstacles[a].x)*(x-obstacles[a].x) + (y-obstacles[a].y)*(y-obstacles[a].y)) 
+            - obstacles[a].radius - turtlebotRadius - buffer;
         if(dist < minDist)
         {
             minDist = dist;
