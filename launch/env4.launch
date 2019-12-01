@@ -1,0 +1,27 @@
+<launch>
+	<arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  	<arg name="map_file" default="$(find drrt_planner)/maps/env4.yaml"/>
+  	<arg name="world" default="$(find drrt_planner)/worlds/env4.world"/>
+	<arg name="open_rviz" default="true"/>
+  	<arg name="move_forward_only" default="false"/>
+  	<arg name="x_pos" default="0.0"/>
+  	<arg name="y_pos" default="0.0"/>
+  	<arg name="z_pos" default="0.0"/>
+	
+  	<!-- turtlebot3_gazebo empty_world -->
+  	<include file="$(find drrt_planner)/launch/gazebo.launch">
+	  	<arg name="world" value="$(arg world)"/>
+  		<arg name="x_pos" value="$(arg x_pos)"/>
+  		<arg name="y_pos" value="$(arg y_pos)"/>
+  		<arg name="z_pos" value="$(arg z_pos)"/>
+  	</include>
+
+	<!-- turtlebot3_navigation -->
+	<include file="$(find drrt_planner)/launch/navigation.launch">
+    	<arg name="model" value="$(arg model)"/>
+    	<arg name="map_file" value="$(arg map_file)"/>
+  		<arg name="open_rviz" value="$(arg open_rviz)"/>
+    	<arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  	</include>
+
+</launch>

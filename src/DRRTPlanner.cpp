@@ -26,7 +26,7 @@ void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap
 
 	// set the bounds for the R^2
 	ob::RealVectorBounds bounds(2);
-	bounds.setLow(-1);
+	bounds.setLow(0);
 	bounds.setHigh(10);
 
 	space->setBounds(bounds);
@@ -81,7 +81,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	
 		std::cout << "\n\n\n\nsolving...\n\n";
 		// attempt to solve the problem within one second of planning time
-    	ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
+    	ob::PlannerStatus solved = planner->ob::Planner::solve(2.0);
 	
 	    	
     	if (solved)
