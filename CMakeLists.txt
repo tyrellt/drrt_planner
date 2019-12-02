@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(drrt_planner)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(ompl)
+find_package(PythonLibs 2.7)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(EIGEN REQUIRED eigen3)
 
@@ -129,6 +130,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ./include
   ${OMPL_INCLUDE_DIRS}
+  ${PYTHON_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -138,6 +140,7 @@ include_directories(
 set(LIB_SOURCES
   src/DRRTPlanner.cpp 
   src/ValidityChecker.cpp
+  src/drawPlannerData.cpp
 )
  add_library(drrt_planner_lib ${LIB_SOURCES}) 
 
@@ -165,7 +168,7 @@ set(LIB_SOURCES
  target_link_libraries(drrt_planner_lib
  	${catkin_LIBRARIES}
  	${OMPL_LIBRARIES}
-
+  ${PYTHON_LIBRARIES}
  )
 
 #############

@@ -1,6 +1,7 @@
 #include <pluginlib/class_list_macros.h>
 #include "DRRTPlanner.h"
 #include "ValidityChecker.h"
+#include "drawPlannerData.h"
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <std_msgs/Float64.h>
 
@@ -109,6 +110,12 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
     	    // and inquire about the found path
     	    og::PathGeometric rrtStarPath( dynamic_cast< const og::PathGeometric& >(*pdef->getSolutionPath()));
     	    std::cout << "Found solution:" << std::endl;
+
+			//Code to plot tree and solution path.
+			ob::PlannerData data(si);
+    		planner->getPlannerData(data);
+    		og::PathGeometric* spath = pdef->getSolutionPath()->as<og::PathGeometric>();
+    		drawGraph(data, spath);
 			
     	    // print the path to screen
     	    rrtStarPath.print(std::cout);
