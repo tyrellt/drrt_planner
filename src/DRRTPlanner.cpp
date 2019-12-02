@@ -43,6 +43,25 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 							std::vector<geometry_msgs::PoseStamped>& plan )
 {
 	static bool needToReplan = true;
+	
+	
+	// Option 1:------------------------------------------------
+	// check for input from user
+
+	// if user indicates that they want to place an obstacle
+		// get path
+		// spawn an obstacle along the path in front of the robot somewhere
+		// call ValidityChecker::readObstacles()
+		// set needToReplan to true
+
+	// Option 2:------------------------------------------------
+	// Spawn obstacle using a separate ros node. The node could be run from the command line
+	// subscribe to gazebo/model_states
+	// if number of models in the environment changes
+		// run ValidityChecker::readObstacles()
+
+	
+
 	if (needToReplan) {
 	    // create a random start state
 	    ob::ScopedState<ob::RealVectorStateSpace> treeStart(space);
@@ -81,14 +100,14 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	
 		std::cout << "\n\n\n\nsolving...\n\n";
 		// attempt to solve the problem within one second of planning time
-    	ob::PlannerStatus solved = planner->ob::Planner::solve(2.0);
+    	ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
 	
 	    	
     	if (solved)
     	{
     	    // get the goal representation from the problem definition (not the same as the goal state)
     	    // and inquire about the found path
-    	    og::PathGeometric rrtStarPath( dynamic_cast< const og::PathGeometric& >( *pdef->getSolutionPath()));
+    	    og::PathGeometric rrtStarPath( dynamic_cast< const og::PathGeometric& >(*pdef->getSolutionPath()));
     	    std::cout << "Found solution:" << std::endl;
 			
     	    // print the path to screen
@@ -109,10 +128,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
     	    std::cout << "No solution found" << std::endl;
 
 		needToReplan = false;
-		//std::cout << "Plan: \n";
-		//for (int i = 0; i < plan.size(); i++) {
-		//	std::cout << plan[i].pose.position.x << ", " << plan[i].pose.position.y << std::endl;
-		//}
 		 
 	}
 
