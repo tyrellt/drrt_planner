@@ -108,22 +108,23 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
     	{
     	    // get the goal representation from the problem definition (not the same as the goal state)
     	    // and inquire about the found path
-    	    og::PathGeometric rrtStarPath( dynamic_cast< const og::PathGeometric& >(*pdef->getSolutionPath()));
-    	    std::cout << "Found solution:" << std::endl;
+    	    // og::PathGeometric rrtStarPath( dynamic_cast< const og::PathGeometric& >(*pdef->getSolutionPath()));
+    	    og::PathGeometric* sPath = pdef->getSolutionPath()->as<og::PathGeometric>();
+			std::cout << "Found solution:" << std::endl;
 
 			//Code to plot tree and solution path.
 			ob::PlannerData data(si);
     		planner->getPlannerData(data);
-    		og::PathGeometric* spath = pdef->getSolutionPath()->as<og::PathGeometric>();
-    		drawGraph(data, spath);
+    		
+    		drawGraph(data, sPath);
 			
     	    // print the path to screen
     	    rrtStarPath.print(std::cout);
     	    
     	    plan.push_back(start);
-    	    for (int i = 1; i < rrtStarPath.getStateCount() - 1; i++) {	//don't add start and goal states in loop
+    	    for (int i = 1; i < sPath->getStateCount() - 1; i++) {	//don't add start and goal states in loop
     	    	geometry_msgs::PoseStamped nav_pose = goal;	//intialize so we have all the correct header info
-    	    	auto currentState = rrtStarPath.getState(i)->as<ob::RealVectorStateSpace::StateType>();
+    	    	auto currentState = sPath->getState(i)->as<ob::RealVectorStateSpace::StateType>();
     	    	nav_pose.pose.position.x = currentState->values[0];
     	    	nav_pose.pose.position.y = currentState->values[1];
     	    	plan.push_back(nav_pose);
