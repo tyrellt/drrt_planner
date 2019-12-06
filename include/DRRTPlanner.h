@@ -52,6 +52,7 @@ ros::Subscriber collisionSub;
 
 ValidityChecker* vc;
 
+int numObstacles;
 
 };	// end class DRRTPlanner
 };	// end namspace drrt_planner

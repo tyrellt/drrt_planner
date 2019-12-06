@@ -60,8 +60,15 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	// subscribe to gazebo/model_states
 	// if number of models in the environment changes
 		// run ValidityChecker::readObstacles()
-
 	
+	auto model_msg = ros::topic::waitForMessage<gazebo_msgs::ModelStates>("/gazebo/model_states");
+	int newNumObstacles = model_msg->name.size();
+	if (newNumObstacles != numObstacles)
+	{
+		needToReplan = true;
+		numObstacles = newNumObstacles;
+		vc->readObstacles(*model_msg);
+	}
 
 	if (needToReplan) {
 	    // create a random start state
@@ -113,14 +120,14 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 			std::cout << "Found solution:" << std::endl;
 
 			//Code to plot tree and solution path.
-			ob::PlannerData data(si);
-    		planner->getPlannerData(data);
+			//ob::PlannerData data(si);
+    		//planner->getPlannerData(data);
     		
-    		drawGraph(data, sPath);
+    		//drawGraph(data, sPath);
 			
     	    // print the path to screen
-    	    rrtStarPath.print(std::cout);
-    	    
+    	    sPath->print(std::cout);
+
     	    plan.push_back(start);
     	    for (int i = 1; i < sPath->getStateCount() - 1; i++) {	//don't add start and goal states in loop
     	    	geometry_msgs::PoseStamped nav_pose = goal;	//intialize so we have all the correct header info
@@ -128,7 +135,6 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
     	    	nav_pose.pose.position.x = currentState->values[0];
     	    	nav_pose.pose.position.y = currentState->values[1];
     	    	plan.push_back(nav_pose);
-
     	    }
     	    plan.push_back(goal);
     	}
@@ -141,4 +147,4 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 
    	return true;
 }
-};
+}	// end namespace

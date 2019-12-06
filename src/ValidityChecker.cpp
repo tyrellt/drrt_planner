@@ -1,10 +1,6 @@
 #include "ValidityChecker.h"
 #include <string>
 
-void callback(const gazebo_msgs::ModelStates& msg) {
-    std::cout << "in callback\n";
-}
-
 ValidityChecker::ValidityChecker(const ob::SpaceInformationPtr& si) :
     ob::StateValidityChecker(si)
 {
