@@ -33,7 +33,6 @@ void ValidityChecker::readObstacles(const gazebo_msgs::ModelStates& msg) {
             obstacles.push_back(obs);
         }
     }
-    std::cout << "num obstacles: " << obstacles.size() << "\n\n\n\n\n\n";
 }
 
 

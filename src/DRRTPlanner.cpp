@@ -36,6 +36,7 @@ void DRRTPlanner::initialize(std::string name, costmap_2d::Costmap2DROS* costmap
 	vc = new ValidityChecker(si);
 	// set state validity checking for this space
 	si->setStateValidityChecker(ob::StateValidityCheckerPtr(vc));
+	pdef = std::make_shared<ob::ProblemDefinition>(si);
 	
 }
 
@@ -45,29 +46,29 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 {
 	static bool needToReplan = true;
 	
-	
-	// Option 1:------------------------------------------------
-	// check for input from user
-
-	// if user indicates that they want to place an obstacle
-		// get path
-		// spawn an obstacle along the path in front of the robot somewhere
-		// call ValidityChecker::readObstacles()
-		// set needToReplan to true
-
-	// Option 2:------------------------------------------------
-	// Spawn obstacle using a separate ros node. The node could be run from the command line
-	// subscribe to gazebo/model_states
-	// if number of models in the environment changes
-		// run ValidityChecker::readObstacles()
-	
 	auto model_msg = ros::topic::waitForMessage<gazebo_msgs::ModelStates>("/gazebo/model_states");
 	int newNumObstacles = model_msg->name.size();
 	if (newNumObstacles != numObstacles)
 	{
-		needToReplan = true;
 		numObstacles = newNumObstacles;
 		vc->readObstacles(*model_msg);
+
+		if (pdef->hasSolution())
+		{
+			og::PathGeometric* sPath = pdef->getSolutionPath()->as<og::PathGeometric>();
+			for (int i = 0; i < sPath->getStateCount(); i++)	
+			{
+				auto currentState = sPath->getState(i)->as<ob::RealVectorStateSpace::StateType>();
+				bool collisionFree = vc->isValid(currentState);
+				if (!collisionFree)
+				{
+					needToReplan = true;
+					break;
+				}
+			}
+		}
+
+		
 	}
 
 	if (needToReplan) {
@@ -83,7 +84,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 		std::cout << "goal state: " << treeGoal[0] << ", " << treeGoal[1] << std::endl;
 
 		// create a problem instance
-	    pdef = std::make_shared<ob::ProblemDefinition>(si);
+	    
 
 	    // set the start and goal states
 	    double threshold = 0.5;
