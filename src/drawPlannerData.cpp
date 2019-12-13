@@ -11,7 +11,7 @@ void getXY(const ob::PlannerDataVertex &v, double &x, double &y)
 
 
 //Extracts graph data for plotting from the planner data and the solution path. Returns graph data
-graphData extractData(void drawGraph(const ob::PlannerData &data, const og::PathGeometric *spath)
+graphData extractData(const ob::PlannerData &data, const og::PathGeometric *spath)
 {
     std::vector<unsigned int> edges;
     double x0, x1, y0, y1, xi, yi;
@@ -21,7 +21,7 @@ graphData extractData(void drawGraph(const ob::PlannerData &data, const og::Path
     std::vector<double> sX;
     std::vector<double> sY;
     std::vector<edge> tree;
-    graphData data;
+
     
 
 
@@ -37,7 +37,6 @@ graphData extractData(void drawGraph(const ob::PlannerData &data, const og::Path
             tree.push_back(edge(X,Y));
         }
     }
-    data.tree = tree;
 
 
     if(spath != nullptr)
@@ -50,19 +49,17 @@ graphData extractData(void drawGraph(const ob::PlannerData &data, const og::Path
         }
     }
 
-    data.sX = sX;
-    data.sY = sY;
-    return data;
+    return graphData(tree,sX,sY);;
 }
 
 //Plots the extracted graph data
-void drawGraph(graphData data){
+void drawGraphData(graphData data){
     //Plot Edges
     for (auto e:data.tree){
-        plt::plot(e.x, e.Y, "-b");
+        plt::plot(e.X, e.Y, "-b");
     }
     //Plot solution path
-    if (data.sX.size>0){
+    if (data.sX.size()>0){
         plt::plot(data.sX,data.sY,{{"color", "red"}, {"linestyle", "-"}, {"linewidth", "2.5"}});
     }
     plt::show();

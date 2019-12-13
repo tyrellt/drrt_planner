@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <thread>
 
 //register this planner as a BaseDRRTPlanner plugin
 PLUGINLIB_EXPORT_CLASS(drrt_planner::DRRTPlanner, nav_core::BaseGlobalPlanner)
@@ -121,9 +122,13 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 			std::cout << "Found solution:" << std::endl;
 
 			//Code to plot tree and solution path.
-			//ob::PlannerData data(si);
-    		//planner->getPlannerData(data);
+			ob::PlannerData data(si);
+    		planner->getPlannerData(data);
     		
+			auto graphdata = extractData(data, sPath);
+			std::thread tdraw(drawGraphData,graphdata);
+			tdraw.detach();
+			//drawGraph(graphdata);
     		//drawGraph(data, sPath);
 			
     	    // print the path to screen

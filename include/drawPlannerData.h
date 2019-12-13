@@ -41,18 +41,19 @@ namespace plt = matplotlibcpp;
 struct edge{
     std::vector<double> X;
     std::vector<double> Y;
-    edge(std::vector<double> x, std::vector<double> y):X(x),Y(y);
+    edge(std::vector<double> x, std::vector<double> y):X(x),Y(y){};
 };
 
 struct graphData{
     std::vector<edge> tree;
     std::vector<double> sX;
     std::vector<double> sY;
+    graphData(std::vector<edge> tr, std::vector<double> sx, std::vector<double> sy):tree(tr),sX(sx),sY(sy){};
 };
 
-graphData extractData(void drawGraph(const ob::PlannerData &data, const og::PathGeometric *spath);
+graphData extractData(const ob::PlannerData &data, const og::PathGeometric *spath);
 
-void drawGraph(graphData data);
+void drawGraphData(graphData data);
 
 void drawGraph(const ob::PlannerData &data, const og::PathGeometric *spath = nullptr);
 
