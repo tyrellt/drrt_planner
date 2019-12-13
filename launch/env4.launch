@@ -4,8 +4,8 @@
   	<arg name="world" default="$(find drrt_planner)/worlds/env4.world"/>
 	<arg name="open_rviz" default="true"/>
   	<arg name="move_forward_only" default="false"/>
-  	<arg name="x_pos" default="0.0"/>
-  	<arg name="y_pos" default="0.0"/>
+  	<arg name="x_pos" default="0.1"/>
+  	<arg name="y_pos" default="0.1"/>
   	<arg name="z_pos" default="0.0"/>
 	
   	<!-- turtlebot3_gazebo empty_world -->

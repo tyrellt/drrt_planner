@@ -1542,10 +1542,10 @@
       <pose frame=''>7.00782 -1.44399 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>357 731000000</sim_time>
-      <real_time>49 594239315</real_time>
-      <wall_time>1575155791 417259293</wall_time>
-      <iterations>47660</iterations>
+      <sim_time>421 775000000</sim_time>
+      <real_time>66 164504543</real_time>
+      <wall_time>1576251015 785687641</wall_time>
+      <iterations>64044</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -1702,7 +1702,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0.884298 1.22119 24.589 0 1.4778 -0.063804</pose>
+        <pose frame=''>4.07808 1.39383 16.6356 -7e-06 1.40624 1.56633</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

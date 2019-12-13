@@ -77,12 +77,12 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	    ob::ScopedState<ob::RealVectorStateSpace> treeStart(space);
 	    treeStart[0] = start.pose.position.x;
 	    treeStart[1] = start.pose.position.y;
-	    std::cout << "start state: " << treeStart[0] << ", " << treeStart[1] << std::endl;
+	    //std::cout << "start state: " << treeStart[0] << ", " << treeStart[1] << std::endl;
 	    
 	    ob::ScopedState<ob::RealVectorStateSpace> treeGoal(space);
 		treeGoal[0] = goal.pose.position.x;
 	    treeGoal[1] = goal.pose.position.y;    
-		std::cout << "goal state: " << treeGoal[0] << ", " << treeGoal[1] << std::endl;	    
+		//std::cout << "goal state: " << treeGoal[0] << ", " << treeGoal[1] << std::endl;	    
 
 	    // set the start and goal states
 	    double threshold = 0.5;
@@ -90,7 +90,7 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 
 	    // initialize planner for the defined space
 	    auto planner = std::make_shared<og::RRTstar>(si);
-
+		
 		pdef->clearSolutionPaths();
 
 	    // set the problem we are trying to solve for the planner
@@ -100,10 +100,10 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 	    planner->setup();
 
 	    // print the settings for this space
-	    std::cout << "\n\n\n\n\nspace settings:\n\n\n";
+	    //std::cout << "\n\n\n\n\nspace settings:\n\n\n";
 	    si->printSettings(std::cout);
 
-	    std::cout << "\n\n\n\n\nproblem settings:\n\n\n";
+	    //std::cout << "\n\n\n\n\nproblem settings:\n\n\n";
 	    // print the problem settings
 	    pdef->print(std::cout);
 	
