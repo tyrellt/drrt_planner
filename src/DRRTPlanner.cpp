@@ -124,10 +124,12 @@ bool DRRTPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geomet
 			//Code to plot tree and solution path.
 			ob::PlannerData data(si);
     		planner->getPlannerData(data);
-    		
-			auto graphdata = extractData(data, sPath);
+    		//std::cout << "\n\n\nI'M HERE 1\n\n\n";
+			graphData graphdata = extractData(data, sPath);
+			//std::cout << "\n\n\nI'M HERE 2\n\n\n";
 			std::thread tdraw(drawGraphData,graphdata);
 			tdraw.detach();
+			//std::cout << "\n\n\nI'M HERE 3\n\n\n";
 			//drawGraph(graphdata);
     		//drawGraph(data, sPath);
 			

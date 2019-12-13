@@ -14,6 +14,8 @@
 // The supported optimal planners, in alphabetical order
 #include <ompl/geometric/PathGeometric.h>
 #include <ompl/base/PlannerData.h>
+
+#include <mutex>
 //#include <ompl/geometric/planners/bitstar/BITstar.h>
 //#include <ompl/geometric/planners/cforest/CForest.h>
 //#include <ompl/geometric/planners/fmt/FMT.h>

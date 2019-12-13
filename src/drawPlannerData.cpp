@@ -1,4 +1,9 @@
 #include "drawPlannerData.h"
+//Just for debugging
+//#include<iostream>
+//#include<thread>
+
+
 
 
 void getXY(const ob::PlannerDataVertex &v, double &x, double &y)
@@ -54,6 +59,10 @@ graphData extractData(const ob::PlannerData &data, const og::PathGeometric *spat
 
 //Plots the extracted graph data
 void drawGraphData(graphData data){
+    //std::cout<< "\n1.function called - " << std::this_thread::get_id() << std::endl; //For debug - displays thread id.
+    static std::mutex mutex;
+    std::lock_guard<std::mutex> lock(mutex); // This locks the mutex, and automatically unlocks it after the function goes out of scope.(After plot is closed)
+    //std::cout<< "\n2.mutex locked - " << std::this_thread::get_id() << std::endl;
     //Plot Edges
     for (auto e:data.tree){
         plt::plot(e.X, e.Y, "-b");
@@ -62,7 +71,9 @@ void drawGraphData(graphData data){
     if (data.sX.size()>0){
         plt::plot(data.sX,data.sY,{{"color", "red"}, {"linestyle", "-"}, {"linewidth", "2.5"}});
     }
+    //std::cout<< "\n3.Displaying Plot - " << std::this_thread::get_id() << std::endl;
     plt::show();
+    //std::cout<< "\n4.Finishing execution - " << std::this_thread::get_id() << std::endl;
 }
 
 //Directly plots graph data. Slow, but single step.
@@ -103,5 +114,4 @@ void drawGraph(const ob::PlannerData &data, const og::PathGeometric *spath)
 
 
     plt::show();
-
 }
