@@ -1,5 +1,8 @@
 # drrt_planner
 
+## About
+This project was done as part of the requirements of Motion Planning (CS 6370) at the University of Utah, taught by Dr. Tucker Hermans. We developed a dynamic version of the optimized Rapidly-exploring Random Tree (RRT*) algorithm. We built off of the Open Motion Planning Library (OMPL), and implemented the planner on a simulated Turtlebot using ROS and Gazebo. 
+
 ## Steps to create workspace:
 #### 1. Install ROS Melodic: http://wiki.ros.org/melodic/Installation/Ubuntu
 #### 2. Create a catkin workspace: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
